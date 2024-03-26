@@ -37,4 +37,4 @@ def play(file_name):
     return send_file(os.path.join(tempfile.gettempdir(), file_name), as_attachment=True, mimetype='audio/mp3')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
