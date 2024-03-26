@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YouTube MP3 Downloader</title>
+</head>
+<body>
+    <h1>YouTube MP3 Downloader</h1>
+    <form action="/download" method="post">
+        <label for="url">YouTube URL:</label>
+        <input type="text" name="url" required>
+        <input type="submit" value="Download">
+    </form>
+
+    <!-- Display downloaded audio files -->
+    <h2>Downloaded MP3s</h2>
+    <ul>
+        {% for file in mp3_files %}
+            <li><a href="/play/{{ file }}">{{ file }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
