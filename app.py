@@ -23,7 +23,7 @@ def inedx():
         file = download_mp3(url)
         return send_file(file)
     else : 
-        return jsonify("type":"url not found")
+        return jsonify({"type":"url not found"})
 
 if __name__=="__main__":
     app.run(debug=True)
