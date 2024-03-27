@@ -2,3 +2,5 @@ flask
 pytube
 gunicorn
 moviepy
+eyed3
+requests
