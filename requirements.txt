@@ -1,6 +1,4 @@
 flask
 pytube
-pydub
 gunicorn
-ffmpeg
 moviepy
