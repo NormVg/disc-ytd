@@ -1,4 +1,4 @@
-from flask import Flask,send_file,request
+from flask import Flask,send_file,request,jsonify
 
 from pytube import YouTube
 from moviepy.editor import *
@@ -19,8 +19,11 @@ app = Flask(__name__)
 @app.get("/")
 def inedx():
     url = request.args.get("url")
-    file = download_mp3(url)
-    return send_file(file)
+    if url:
+        file = download_mp3(url)
+        return send_file(file)
+    else : 
+        return jsonify("type":"url not found")
 
 if __name__=="__main__":
     app.run(debug=True)
