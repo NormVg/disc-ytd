@@ -8,12 +8,13 @@ import requests
 
 from io import BytesIO
 from PIL import Image
+import gdown
 
 
-
-def get_audio_thumbnail(file):
-
-    audio_file = eyed3.load(file)
+def get_audio_thumbnail(id):
+    audio = tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) 
+    gdown.download(output=audio.name,id=id)
+    audio_file = eyed3.load(audio.name)
     
     # Check if the audio file has an attached image
     if audio_file.tag and audio_file.tag.images:
@@ -25,7 +26,7 @@ def get_audio_thumbnail(file):
         art = tempfile.NamedTemporaryFile(suffix='.png', delete=False) 
         # Save the image (optional)
         image.save(art.name)
-        
+        # image.save("nanan.png")
         return art.name
     
     else:
@@ -48,6 +49,10 @@ def download_mp3(url):
 app = Flask(__name__)
 
 @app.get("/")
+def index():
+    return "disc yt server"
+
+@app.get("/yt")
 def inedx():
     url = request.args.get("url")
     if url:
@@ -56,12 +61,14 @@ def inedx():
     else : 
         return jsonify({"type":"url not found"})
 
-@app.post("/img")
+@app.get("/img")
 def get():
-    file = tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) 
-    a = request.files['file']
-    a.save(file.name)
-    img = get_audio_thumbnail(file.name)
+    
+    a = request.args.get("id")
+    
+    img = get_audio_thumbnail(a)
     return send_file(img)
+
+
 if __name__=="__main__":
     app.run(debug=True)
