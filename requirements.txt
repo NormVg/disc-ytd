@@ -5,4 +5,4 @@ moviepy
 eyed3
 requests
 pillow
-gdown
+requests
