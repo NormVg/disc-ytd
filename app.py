@@ -19,24 +19,25 @@ def get_audio_thumbnail(id):
     g = open(audio.name,"wb")
     g.write(a)
     # g.close()
-    audio_file = eyed3.load(audio.name)
-    
-    # Check if the audio file has an attached image
-    if audio_file.tag and audio_file.tag.images:
-        # Get the first image (thumbnail)
-        image_data = audio_file.tag.images[0].image_data
+    try:
+        audio_file = eyed3.load(audio.name)
         
-        # Convert image data to PIL Image
-        image = Image.open(BytesIO(image_data))
-        art = tempfile.NamedTemporaryFile(suffix='.png', delete=False) 
-        # Save the image (optional)
-        image.save(art.name)
-        # image.save("nanan.png")
-        return art.name
-    
-    else:
-        print("No thumbnail found in the audio file.")
-        return None
+        # Check if the audio file has an attached image
+        if audio_file.tag and audio_file.tag.images:
+            # Get the first image (thumbnail)
+            image_data = audio_file.tag.images[0].image_data
+            
+            # Convert image data to PIL Image
+            image = Image.open(BytesIO(image_data))
+            art = tempfile.NamedTemporaryFile(suffix='.png', delete=False) 
+            # Save the image (optional)
+            image.save(art.name)
+            # image.save("nanan.png")
+            return art.name
+    except :pass  
+    # else:
+    #     print("No thumbnail found in the audio file.")
+    #     return None
 
 def download_mp3(url):
     mp4 =  tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) 
@@ -70,9 +71,11 @@ def inedx():
 def get():
     
     a = request.args.get("id")
-    
     img = get_audio_thumbnail(a)
-    return send_file(img)
+    if img:
+        return send_file(img)
+    else:
+        return send_file("common.png")
 
 
 if __name__=="__main__":
