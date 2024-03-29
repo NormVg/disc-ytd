@@ -8,12 +8,17 @@ import requests
 
 from io import BytesIO
 from PIL import Image
-import gdown
+import requests
 
 
 def get_audio_thumbnail(id):
     audio = tempfile.NamedTemporaryFile(suffix='.mp3', delete=False) 
-    gdown.download(output=audio.name,id=id)
+    print("downloading mp3")
+    a = requests.get(f"https://www.googleapis.com/drive/v2/files/{id}?alt=media&source=downloadUrl&key=AIzaSyBUPpRFf2mdbDFgZ43YHfOsTpvf_Yg91Hc").content
+    print("mp3 done")
+    g = open(audio.name,"wb")
+    g.write(a)
+    # g.close()
     audio_file = eyed3.load(audio.name)
     
     # Check if the audio file has an attached image
